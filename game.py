@@ -2,6 +2,9 @@ import sys
 import os
 import random
 
+#WEAPONS 
+
+weaponsforsale ={"Sword: 40"}
 
 
 # Classes
@@ -14,6 +17,22 @@ class Player:
 		self.study = 10
 		self.maxstudy = 120
 		self.movement = 100
+		self.weapon = ["Pocket Knife"]
+		self.currentweapon = ["Pocket Knife"]
+		self.gold = 40
+		
+		
+		@property
+		def attack(self):
+			attack = self.attack
+			if self.currentweapon == "Pocket Knife":
+				attack == 6
+			elif self.currentweapon == "Sword":
+				attack == 12
+			elif self.current.weapon == "Axe":
+				attack == 9
+				
+			return attack
 		
 class Warrior:
 	def __init__(self,name):
@@ -71,7 +90,11 @@ def gamestart1():
 		arena()
 	elif decision == "4":
 		sys.exit()
-
+		
+		
+def inventory():
+	
+	
 
 def city():
 	print "Welcome to the City!"
@@ -87,11 +110,29 @@ def city():
 	elif decision == "3":
 		horsebuyer()
 
-# ARENA FIGHTING --------------------------------
+# SHOP  --------------------------------
 
-def arena():
+def shop():
+	os.system('clear')
+	print "Welcome to the Town Shop!"
+	print "What are you going to buy?"
+	print "1) Sword"
+	print "2) Potions"
+	print "3) Axe"
+	decision = raw_input (" ==> ")
 	
-
+	if decision in weaponsforsale:
+		if PLAYERNAME.gold >= weaponsforsale[decision]:
+			os.system('clear')
+		PLAYERNAME.gold -= weaponsforsale[decision]
+		PLAYERNAME.weap.append(decision)
+		print "You have bought %s" % decision
+		shop()
+	else:
+		os.system('clear')
+		print "You dont have enough money!"
+		decision = raw_input(" ==> ")
+		shop()
 	
 
 	

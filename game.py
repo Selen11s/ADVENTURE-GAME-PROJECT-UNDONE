@@ -2,38 +2,38 @@ import sys
 import os
 import random
 
-#WEAPONS 
+#WEAPONS
 
-weaponsforsale ={"Sword: 40"}
+weaponsforsale ={"Sword":30,"Axe":15,"Potion":5}
 
 
 # Classes
 class Player:
 	def __init__(self, name):
 		self.name = name
-		self.maxhealth = 100 
+		self.maxhealth = 100
 		self.health = self.maxhealth
-		self.attack = 10
+		self.attack = 5
 		self.study = 10
 		self.maxstudy = 120
 		self.movement = 100
 		self.weapon = ["Pocket Knife"]
 		self.currentweapon = ["Pocket Knife"]
-		self.gold = 40
-		
-		
+		self.gold = 0
+
+
 		@property
 		def attack(self):
 			attack = self.attack
 			if self.currentweapon == "Pocket Knife":
-				attack == 6
+				self.attack == 6
 			elif self.currentweapon == "Sword":
-				attack == 12
+				self.attack == 12
 			elif self.current.weapon == "Axe":
-				attack == 9
-				
+				self.attack == 9
+
 			return attack
-		
+
 class Warrior:
 	def __init__(self,name):
 		self.name = name
@@ -47,7 +47,7 @@ class Mage:
 		self.maxhealth = 120
 		self.health = self.maxhealth
 		self.attack = randint(2,8)
-# ----------------------------------------------		
+# ----------------------------------------------
 def main():
 	print "Welcome to the ROPA GOGA!"
 	print "Press 1) to Enter the Game"
@@ -62,8 +62,6 @@ def main():
 		sys.exit()
 	else:
 		main()
-		
-
 
 def gamestart():
 	os.system('clear')
@@ -74,13 +72,17 @@ def gamestart():
 	gamestart1()
 
 def gamestart1():
+	os.system('clear')
 	print "Name %s" % PLAYERNAME.name
 	print "Health %i/%i" % (PLAYERNAME.health, PLAYERNAME.maxhealth)
 	print "Attack %i" % PLAYERNAME.attack
+	print "Weapons: %s" % PLAYERNAME.currentweapon
+	print "Gold: %s" % PLAYERNAME.gold
 	print "1) Enter the City"
 	print "2) Leave the City"
 	print "3) Fight"
 	print "4) Exit the Game"
+	print "5) Inventory"
 	decision = raw_input(" ==> ")
 	if decision == "1":
 		city()
@@ -90,11 +92,8 @@ def gamestart1():
 		arena()
 	elif decision == "4":
 		sys.exit()
-		
-		
-def inventory():
-	
-	
+	elif decision == "5":
+		inventory()
 
 def city():
 	print "Welcome to the City!"
@@ -109,6 +108,40 @@ def city():
 		bookstore()
 	elif decision == "3":
 		horsebuyer()
+		
+def inventory():
+	print "What would you like to do?"
+	print "1) Equip Weapon"
+	print "2) Go Back"
+	decision = raw_input (" ==> ")
+	if decision == "1" or "equip" or "one" or "equip weapon":
+		equipment()
+	elif decision == "back" "2" "goback" "go back":
+		city()
+		
+def equipment():
+	print "What would you like to equip?"
+	for weapon in PLAYERNAME.weapon:
+		print weapon
+		print "Type B or Back to go back"
+		decision = raw_input (" ==> ")
+		if decision == "b" or "Back":
+			inventory()
+		if decision == PLAYERNAME.currentweapon:
+			print "Your choice is already equipped"
+			decision = raw_input (" ==> ")
+			equipment()
+		elif decision == "b" or "back" or "Back":
+			inventory()
+		elif decision in PLAYERNAME.weapon:
+			print "You have equipped %s" % decision
+			decision = raw_input (" ==> ")
+			equipment()
+		else:
+			print "You dont have %s in your inventory" % decision
+			
+		
+
 
 # SHOP  --------------------------------
 
@@ -117,25 +150,32 @@ def shop():
 	print "Welcome to the Town Shop!"
 	print "What are you going to buy?"
 	print "1) Sword"
-	print "2) Potions"
+	print "2) Potion"
 	print "3) Axe"
+	print "4) Back"
 	decision = raw_input (" ==> ")
 	
 	if decision in weaponsforsale:
-		if PLAYERNAME.gold >= weaponsforsale[decision]:
-			os.system('clear')
-		PLAYERNAME.gold -= weaponsforsale[decision]
-		PLAYERNAME.weap.append(decision)
-		print "You have bought %s" % decision
-		shop()
-	else:
+		PLAYERNAME.gold >= weaponsforsale[decision]
 		os.system('clear')
-		print "You dont have enough money!"
-		decision = raw_input(" ==> ")
+		PLAYERNAME.gold -= weaponsforsale[decision]
+		PLAYERNAME.weapon.append(decision)		
+		print "You have bought %s" % decision
+		decision =raw_input("")
 		shop()
 	
-
+	
+	elif decision == "back" or "b" or "ba":
+		city()
+		
+		
+	else:
+		os.system('clear')
+		print "You don't have enough gold!"
+		decision = raw_input (" ==> ")
+		shop()
 	
 	
 
 main()
+

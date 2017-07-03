@@ -1,6 +1,7 @@
 import sys
 import os
 import random
+import pickle
 
 #WEAPONS
 
@@ -19,7 +20,7 @@ class Player:
 		self.movement = 100
 		self.weapon = ["Pocket Knife"]
 		self.currentweapon = ["Pocket Knife"]
-		self.gold = 0
+		self.gold = 40
 
 
 		@property
@@ -27,9 +28,9 @@ class Player:
 			attack = self.attack
 			if self.currentweapon == "Pocket Knife":
 				self.attack == 6
-			elif self.currentweapon == "Sword":
+			if self.currentweapon == "Sword":
 				self.attack == 12
-			elif self.current.weapon == "Axe":
+			if self.current.weapon == "Axe":
 				self.attack == 9
 
 			return attack
@@ -49,7 +50,7 @@ class Mage:
 		self.attack = randint(2,8)
 # ----------------------------------------------
 def main():
-	print "Welcome to the ROPA GOGA!"
+	print "Welcome to the Adventure Bandcom!"
 	print "Press 1) to Enter the Game"
 	print "Press 2) to Load"
 	print "Press 3) to Quit the Game"
@@ -57,7 +58,16 @@ def main():
 	if decision == "1":
 		gamestart()
 	elif decision == "2":
-		pass
+		if os.path.exists("savefile") == True:
+			os.system('clear')
+			with open('savefile', 'rb') as f:
+				global PLAYERNAME
+				PLAYERNAME = pickle.load(f)
+			print "Game loaded"
+			gamestart1()
+		else:
+			"There's not a saved file in your computer"
+			main()
 	elif decision == "3":
 		sys.exit()
 	else:
@@ -83,17 +93,32 @@ def gamestart1():
 	print "3) Fight"
 	print "4) Exit the Game"
 	print "5) Inventory"
+	print "6) Save"
 	decision = raw_input(" ==> ")
 	if decision == "1":
 		city()
+
 	elif decision == "2":
 		awayfromcity()
+	
 	elif decision == "3":
 		arena()
+	
 	elif decision == "4":
 		sys.exit()
+
 	elif decision == "5":
 		inventory()
+	
+	elif decision == "6":
+		os.system('clear')
+		with open('savefile', 'wb') as f:
+			pickle.dump(PLAYERNAME, f)
+			print "Game has been saved!"
+			decision = raw_input (" ==> ")
+			gamestart1()
+		
+# CITY			
 
 def city():
 	print "Welcome to the City!"
@@ -125,11 +150,7 @@ def equipment():
 		print weapon
 		print "Type B or Back to go back"
 		decision = raw_input (" ==> ")
-		if decision == "b" or "Back":
-			inventory()
-		if decision == PLAYERNAME.currentweapon:
-			print "Your choice is already equipped"
-			decision = raw_input (" ==> ")
+		if	decision == PLAYERNAME.current.weapon:
 			equipment()
 		elif decision == "b" or "back" or "Back":
 			inventory()
@@ -156,26 +177,28 @@ def shop():
 	decision = raw_input (" ==> ")
 	
 	if decision in weaponsforsale:
-		PLAYERNAME.gold >= weaponsforsale[decision]
-		os.system('clear')
-		PLAYERNAME.gold -= weaponsforsale[decision]
-		PLAYERNAME.weapon.append(decision)		
-		print "You have bought %s" % decision
-		decision =raw_input("")
-		shop()
+		if PLAYERNAME.gold >= weaponsforsale[decision]:
+			os.system('clear')
+			PLAYERNAME.gold -= weaponsforsale[decision]
+			PLAYERNAME.weapon.append(decision)
+			print "You have bought %s" % decision
+			decision = raw_input (" ==> ")
+			gamestart1()
+		else:
+			os.system('clear')
+			print "You don't have enough gold!"
+			shop()
+	elif decision == "back" or "b" or "ba" or "bac":
+		gamestart1()
 	
-	
-	elif decision == "back" or "b" or "ba":
-		city()
-		
-		
 	else:
-		os.system('clear')
-		print "You don't have enough gold!"
-		decision = raw_input (" ==> ")
+		print "This item doesn't exist!"
 		shop()
-	
+			
+		
+		
+		
+
 	
 
 main()
-
